@@ -5,7 +5,7 @@ import 'dotenv/config';
 @Injectable()
 export class PokemonService {
   async getRandomPokemon(): Promise<any> {
-    const totalPokemon = 898; // Este número debe actualizarse según la PokeAPI
+    const totalPokemon = 898; // This number should be updated according to the PokeAPI.
     const randomId = Math.floor(Math.random() * totalPokemon) + 1;
     const pokeApiBaseUrl = process.env.POKEAPI_BASE_URL;
     const url = `${pokeApiBaseUrl}${randomId}`;

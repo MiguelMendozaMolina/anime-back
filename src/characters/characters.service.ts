@@ -10,14 +10,20 @@ export class CharactersService {
     private characterVoteModel: Model<CharacterVote>,
   ) {}
   async addVote(
-    characterId: string,
-    voteType: 'like' | 'dislike',
-    imageUrl: string,
+    _id?: string,
+    characterId?: string,
+    voteType?: 'like' | 'dislike',
+    imageUrl?: string,
+    createdAt?: Date,
+    updatedAt?: Date,
   ): Promise<CharacterVote> {
     const newVote = new this.characterVoteModel({
+      _id,
       characterId,
       voteType,
       imageUrl,
+      createdAt,
+      updatedAt,
     });
     return newVote.save();
   }
@@ -27,28 +33,28 @@ export class CharactersService {
 
   async getMostLikedCharacter(): Promise<any> {
     const aggregation = await this.characterVoteModel.aggregate([
-      { $match: { voteType: 'like' } }, // Filtra solo los documentos con "like"
+      { $match: { voteType: 'like' } }, // Filter only documents with "like"
       {
         $group: {
-          _id: '$characterId', // Agrupa por characterId
-          count: { $sum: 1 }, // Cuenta los "likes"
-          imageUrl: { $first: '$imageUrl' } // Toma la URL de la imagen del primer documento encontrado
+          _id: '$characterId', // Group by characterId
+          count: { $sum: 1 }, // Count the "likes"
+          imageUrl: { $first: '$imageUrl' }, // Takes the image URL of the first found document
         },
       },
-      { $sort: { count: -1 } }, // Ordena por count en orden descendente
-      { $limit: 1 }, // Limita a 1 resultado para obtener el más "likeado"
+      { $sort: { count: -1 } }, // Sort by count in descending order
+      { $limit: 1 }, // Limits to 1 result to get the most "liked"
     ]);
 
     if (aggregation.length === 0) {
-      return null; // Retorna null si no se encuentra ningún "like"
+      return null; // Returns null if no "like" is found
     }
 
     const mostLiked = aggregation[0];
-    // Asegura devolver un objeto con la estructura deseada
+    // Ensures returning an object with the desired structure
     return {
       characterId: mostLiked._id,
       count: mostLiked.count,
-      imageUrl: mostLiked.imageUrl, // Incluye la imageUrl en la respuesta
+      imageUrl: mostLiked.imageUrl, // Includes the imageUrl in the response
     };
   }
 
@@ -71,7 +77,7 @@ export class CharactersService {
     }
 
     const mostDisliked = aggregation[0];
-    // Asegúrate de que imageUrl está siendo recogido correctamente
+    // Ensure imageUrl is correctly captured
     return {
       characterId: mostDisliked._id,
       count: mostDisliked.count,
@@ -82,7 +88,7 @@ export class CharactersService {
   async getStatusForCharacter(characterName: string): Promise<any> {
     const caseInsensitiveName = new RegExp(`^${characterName}$`, 'i');
 
-    // Agrega la obtención de la primera imageUrl encontrada para el personaje.
+    // Adds fetching the first found imageUrl for the character.
     const aggregation = await this.characterVoteModel.aggregate([
       { $match: { characterId: caseInsensitiveName } },
       {
@@ -94,7 +100,7 @@ export class CharactersService {
           totalDislikes: {
             $sum: { $cond: [{ $eq: ['$voteType', 'dislike'] }, 1, 0] }
           },
-          imageUrl: { $first: '$imageUrl' } // Asume que todas las entradas para un personaje tienen la misma URL de imagen.
+          imageUrl: { $first: '$imageUrl' } // Assumes all entries for a character have the same image URL.
         },
       },
     ]);
@@ -102,18 +108,18 @@ export class CharactersService {
     if (aggregation.length > 0) {
       const result = aggregation[0];
       return {
-        characterName: result._id, // O simplemente usa characterName si prefieres.
+        characterName: result._id, // Or simply use characterName if you prefer.
         totalLikes: result.totalLikes,
         totalDislikes: result.totalDislikes,
-        imageUrl: result.imageUrl, // Incluye la imageUrl en la respuesta.
+        imageUrl: result.imageUrl, // Includes the imageUrl in the response.
       };
     } else {
-      // Retorna un objeto con ceros y sin imagen si no se encuentra el personaje.
+      // Returns an object with zeros and no image if the character is not found.
       return {
         characterName: characterName,
         totalLikes: 0,
         totalDislikes: 0,
-        imageUrl: '', // O un valor predeterminado o nulo si prefieres.
+        imageUrl: '', // Or a default or null value if preferred.
       };
     }
   }
