@@ -58,16 +58,26 @@ anime-api
 
 1. **Clona el repositorio:**
 
-- git clone https://tu-repositorio.com/proyecto.git
+```bash
+git clone https://github.com/MiguelMendozaMolina/anime-back
+```
 
 2. **Instala las dependencias:**
 
-- cd proyecto
-- npm install
+```bash
+cd anime-back
+npm install
+```
+
+3. **Agrega tu archivo .env al proyecto con los secretos**
+- Recuerda crear un archivo .env en el cual deberas agregar los valores de los secretos 
+  para el proyecto de anime-back
 
 3. **Ejecuta el servidor de desarrollo:**
 
-- npm run start:dev
+```bash
+npm run start:dev
+```
 
 ## Configurar MongoDB Atlas para Aceptar Solicitudes Desde Cualquier IP
 
