@@ -86,7 +86,7 @@ Swagger es una herramienta de código abierto que se utiliza para describir, doc
 
 A continuación se adjunta la representación del contrato Swagger de la aplicación. Para tener acceso a dicho contrato, es necesario ejecutar la aplicación y acceder a través de la siguiente dirección: http://localhost:3001/api.
 
-![Character](src\utils\Swagger.JPG)
+![Character](./src/utils/images/Swagger.JPG)
 
 ## Configurar MongoDB Atlas para Aceptar Solicitudes Desde Cualquier IP
 
