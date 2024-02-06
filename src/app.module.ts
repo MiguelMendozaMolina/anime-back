@@ -6,6 +6,7 @@ import { PokemonModule } from './pokemon/pokemon.module';
 import { SuperheroesModule } from './superheroes/superheroes.module';
 import { CharactersModule } from './characters/characters.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DragonballModule } from './dragonball/dragonball.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MongooseModule } from '@nestjs/mongoose';
         serverApi: { version: '1', strict: true, deprecationErrors: true },
       },
     ),
+    DragonballModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,6 +6,7 @@ import { CharactersService } from './characters.service';
 import { RickAndMortyModule } from 'src/rick-and-morty/rick-and-morty.module';
 import { PokemonModule } from 'src/pokemon/pokemon.module';
 import { SuperheroesModule } from 'src/superheroes/superheroes.module';
+import { DragonballModule } from 'src/dragonball/dragonball.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { SuperheroesModule } from 'src/superheroes/superheroes.module';
     RickAndMortyModule,
     PokemonModule,
     SuperheroesModule,
+    DragonballModule,
   ],
   providers: [CharactersService],
   controllers: [CharactersController],

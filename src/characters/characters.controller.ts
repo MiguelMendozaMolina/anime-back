@@ -6,6 +6,7 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
+import { DragonBallService } from 'src/dragonball/dragonball.service';
 import { PokemonService } from 'src/pokemon/pokemon.service';
 import { RickAndMortyService } from 'src/rick-and-morty/rick-and-morty.service';
 import { SuperheroesService } from 'src/superheroes/superheroes.service';
@@ -24,6 +25,7 @@ export class CharactersController {
 
   constructor(
     private readonly rickAndMortyService: RickAndMortyService,
+    private readonly dragonBallService: DragonBallService,
     private readonly pokemonService: PokemonService,
     private readonly superheroesService: SuperheroesService,
     private readonly charactersService: CharactersService,
@@ -40,19 +42,20 @@ export class CharactersController {
   async getRandomCharacter() {
     const services = [
       () => this.rickAndMortyService.getRandomCharacter(),
+      () => this.dragonBallService.getRandomDragonBall(),
       () => this.pokemonService.getRandomPokemon(),
       () => this.superheroesService.getRandomSuperhero(),
     ];
 
     let newIndex;
-    if (this.lastServicesUsed.length < 2) {
+    if (this.lastServicesUsed.length < 3) {
       // If two different services have not been used, select any service except the last one used.
       do {
         newIndex = Math.floor(Math.random() * services.length);
       } while (this.lastServicesUsed.includes(newIndex));
     } else {
       // Find a service that is not in the array of the last services used.
-      const availableIndexes = [0, 1, 2].filter(
+      const availableIndexes = [0, 1, 2, 3].filter(
         (index) => !this.lastServicesUsed.includes(index),
       );
       newIndex =
@@ -192,8 +195,8 @@ export class CharactersController {
 
   private updateLastServicesUsed(newIndex: number) {
     this.lastServicesUsed.push(newIndex);
-    // Ensure that only the indices of the last two services used are saved.
-    if (this.lastServicesUsed.length > 2) {
+    // Ensure that only the indices of the last three services used are saved.
+    if (this.lastServicesUsed.length > 3) {
       this.lastServicesUsed.shift();
     }
   }
