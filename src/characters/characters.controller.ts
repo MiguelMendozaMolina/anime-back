@@ -31,7 +31,7 @@ export class CharactersController {
     private readonly charactersService: CharactersService,
   ) {}
 
-  // metodo get
+  // method random
   @ApiTags('Characters')
   @Get('random')
   @ApiOperation({ summary: 'Obtain a random character' })
@@ -47,27 +47,29 @@ export class CharactersController {
       () => this.superheroesService.getRandomSuperhero(),
     ];
 
-    let newIndex;
-    if (this.lastServicesUsed.length < 3) {
-      // If two different services have not been used, select any service except the last one used.
-      do {
-        newIndex = Math.floor(Math.random() * services.length);
-      } while (this.lastServicesUsed.includes(newIndex));
-    } else {
-      // Find a service that is not in the array of the last services used.
-      const availableIndexes = [0, 1, 2, 3].filter(
-        (index) => !this.lastServicesUsed.includes(index),
-      );
-      newIndex =
-        availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+    const serviceIndexes = services.map((_, index) => index);
+    const mixedIndexes = serviceIndexes.sort(() => Math.random() - 0.5);
+
+    for (const index of mixedIndexes) {
+      try {
+        const character = await services[index]();
+        if (character) {
+          this.updateLastServicesUsed(index);
+          return character;
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching character from service at index ${index}:`,
+          error,
+        );
+        // An error is not thrown here to allow the loop to continue with the next service
+      }
     }
 
-    // Update the record of the last services used.
-    this.updateLastServicesUsed(newIndex);
-
-    const randomService = services[newIndex];
-    const character = await randomService();
-    return character;
+    // If all services fail, throw an exception
+    throw new NotFoundException(
+      'Unable to fetch a character from any service.',
+    );
   }
 
   // method lastvote
