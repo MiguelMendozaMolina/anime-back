@@ -79,6 +79,15 @@ npm install
 npm run start:dev
 ```
 
+
+## Documentacion Swagger
+
+Swagger es una herramienta de código abierto que se utiliza para describir, documentar y consumir servicios web RESTful de manera eficiente. Proporciona una especificación y un conjunto de herramientas que permiten a los desarrolladores definir la estructura de una API REST, generar automáticamente documentación interactiva y, en algunos casos, incluso generar código fuente para clientes y servidores en varios lenguajes de programación
+
+A continuación se adjunta la representación del contrato Swagger de la aplicación. Para tener acceso a dicho contrato, es necesario ejecutar la aplicación y acceder a través de la siguiente dirección: http://localhost:3001/api.
+
+![Character](src\utils\Swagger.JPG)
+
 ## Configurar MongoDB Atlas para Aceptar Solicitudes Desde Cualquier IP
 
 Para permitir que tu base de datos MongoDB Atlas reciba solicitudes desde cualquier dirección IP, debes seguir los siguientes pasos para modificar tu lista de direcciones IP permitidas en la configuración de seguridad de red.
@@ -116,9 +125,13 @@ Para permitir que tu base de datos MongoDB Atlas reciba solicitudes desde cualqu
 ## Datos Importantes 
 Para poder ejecutar el proyecto es necesario contar con la version 
 V18.17.0 de Node.js la cual puedes descargar desde el siguiente link 
-https://nodejs.org/download/release/v18.17.0/
+- https://nodejs.org/download/release/v18.17.0/
 
 Para poder utilizar distintos entornos de Node.js se recomienda el uso de NVM 
-https://desarrolloweb.com/home/nvm
+- https://desarrolloweb.com/home/nvm
 
-Es muy importante poder crear un archivo .env en la raiz del proyecto para almacenar las variables de entorno , se adjunta un video para entender de mejor manera su aplicacion https://www.youtube.com/watch?v=WsAPow3rv1w
+Es muy importante poder crear un archivo .env en la raiz del proyecto para almacenar las variables de entorno , se adjunta un video para entender de mejor manera su aplicación 
+- https://www.youtube.com/watch?v=WsAPow3rv1w
+
+
+
